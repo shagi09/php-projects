@@ -1,49 +1,61 @@
 <?php
-$error=[
-    'email'=>'',
-    'title'=>'',
-    'ingredients'=>''
-];
-$email='';
-$title='';
-$ingredients='';
-if(isset($_POST['submit'])){
-    //echo htmlspecialchars($_POST['email']);
-    //echo htmlspecialchars($_POST['title']);
-    //echo htmlspecialchars($_POST['ingredients']);
-    if(empty($_POST['email'])){
-        $error['email']= 'please enter yor email';
-    }
-    else{
-        $email=$_POST['email'];
-        if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-            $error['email']='email invalid';
+session_start();
 
+setcookie("username", "shalom", time() -(0), "/");
+if (isset($_COOKIE["username"])) {
+    echo "username is " . $_COOKIE["username"];
+}
+
+$error = [
+    'email' => '',
+    'title' => '',
+    'ingredients' => ''
+];
+
+$email = '';
+$title = '';
+$ingredients = '';
+
+if (isset($_POST['submit'])) {
+    if (empty($_POST['email'])) {
+        $error['email'] = 'please enter your email';
+    } 
+    else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $error['email'] = 'email invalid';
+        } 
+    else {
+            $email = $_POST['email'];
+            $_SESSION['email'] = $email;
+        }
+
+    
+
+    if (empty($_POST['title'])) {
+        $error['title'] = 'please enter your title';
+    } else {
+        if (!preg_match("/^[a-zA-Z\s]+$/", $_POST['title'])) {
+            $error['title'] = 'title must consist of letters and spaces';
+        } else {
+            $title = $_POST['title'];
+            $_SESSION['title'] = $title;
         }
     }
-    if(empty($_POST['title'])){
-        $error['title']='please enter yor title';
-}
-else{
-    $title=$_POST['title'];
-    if(!preg_match("/^[a-zA-Z\s]+$/",$title)){
-        $error['title']='title must consist of letters and spaces';
+
+    if (empty($_POST['ingredients'])) {
+        $error['ingredients'] = 'please enter your ingredient';
+    } else {
+        if (!preg_match("/^[a-zA-Z\s,]+$/", $_POST['ingredients'])) {
+            $error['ingredients'] = 'ingredients must consist of letters, spaces, and commas';
+        } else{
+            $ingredients = $_POST['ingredients'];
+            $_SESSION['ingredients'] = $ingredients;
+        }
     }
-}
-    if(empty($_POST['ingredients'])){
-        $error['ingredients']='please enter yor ingredient';
-}
-else{
-    $ingredients=$_POST['ingredients'];
-    if(!preg_match("/^[a-zA-Z\s]+$/",$ingredients)){
-        $error['ingredients']='ingredients must consist of letters,spaces and commas';
-    }
-}
-}
+
+    
 
 
-
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
