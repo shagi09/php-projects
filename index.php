@@ -1,5 +1,9 @@
 <?php
 session_start();
+require "vendor/autoload.php";
+$client = new \MongoDB\Client("mongodb://localhost:27017");
+$db=$client->selectDatabase("pizzadb");
+$collection=$db->selectCollection("pizzacollection");
 
 setcookie("username", "shalom", time() -(0), "/");
 if (isset($_COOKIE["username"])) {
@@ -51,6 +55,15 @@ if (isset($_POST['submit'])) {
             $_SESSION['ingredients'] = $ingredients;
         }
     }
+    if (empty($error['email']) && empty($error['title']) && empty($error['ingredients'])) {
+        $data = [
+            'email' => $email,
+            'title' => $title,
+            'ingredients' => $ingredients
+        ];
+        $collection->insertOne($data);
+    }
+
 
     
 

@@ -13,6 +13,11 @@ var_dump($result1);
 <!DOCTYPE html>
 <html lang="en">
 <?php include('layout/header.php')?>
+<h2 style='margin-left:590px;'>your orders are:</h2>
+<div style='margin-left:450px;width: 400px;background-color:#D1B89E; padding:40px; border-radius:20px;color:white;font-size:30px;'>
+    <div>title:</div>
+    <div>ingredients:</div>
+</div>
 
 <?php include('layout/footer.php')?>
 </html>
